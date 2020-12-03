@@ -19,6 +19,10 @@ class _SignInState extends State<SignIn> {
     super.initState();
   }
 
+  void onFormSubmit() {
+    if (_formKey.currentState.validate()) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +48,14 @@ class _SignInState extends State<SignIn> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: TextField(
+                  child: TextFormField(
+                    validator: (String value) {
+                      return RegExp(
+                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              .hasMatch(value)
+                          ? null
+                          : "Enter correct email";
+                    },
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.emailAddress,
                     style: TextStyle(
@@ -52,6 +63,9 @@ class _SignInState extends State<SignIn> {
                     ),
                     decoration: kTextFieldInputDecoration.copyWith(
                       hintText: 'email',
+                      errorStyle: TextStyle(
+                        fontSize: 16.0,
+                      ),
                       prefixIcon: Icon(
                         Icons.email,
                         size: 25.0,
@@ -61,7 +75,12 @@ class _SignInState extends State<SignIn> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: TextField(
+                  child: TextFormField(
+                    validator: (String value) {
+                      return value.trim().length < 6
+                          ? 'Enter atleast 6 character'
+                          : null;
+                    },
                     obscureText: true,
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -69,6 +88,9 @@ class _SignInState extends State<SignIn> {
                     ),
                     decoration: kTextFieldInputDecoration.copyWith(
                       hintText: 'password',
+                      errorStyle: TextStyle(
+                        fontSize: 16.0,
+                      ),
                       prefixIcon: Icon(
                         Icons.vpn_key,
                         size: 25.0,
@@ -94,7 +116,9 @@ class _SignInState extends State<SignIn> {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15.0),
                   child: RoundedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      this.onFormSubmit();
+                    },
                     btnColor: Colors.redAccent,
                     btnText: "Signin",
                     context: context,

@@ -14,11 +14,18 @@ class _SignUpState extends State<SignUp> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Authentication authentication = Authentication();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   void initState() {
     authentication.checkAuthentication(context);
     super.initState();
+  }
+
+  void onFormSubmit() {
+    if (_formKey.currentState.validate()) {}
   }
 
   @override
@@ -46,13 +53,22 @@ class _SignUpState extends State<SignUp> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: TextField(
+                  child: TextFormField(
+                    validator: (String value) {
+                      return value.isEmpty || value.length < 3
+                          ? "Provide username atleast 3 character"
+                          : null;
+                    },
+                    controller: usernameController,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 21.0,
                     ),
                     decoration: kTextFieldInputDecoration.copyWith(
                       hintText: 'username',
+                      errorStyle: TextStyle(
+                        fontSize: 16.0,
+                      ),
                       prefixIcon: Icon(
                         Icons.person,
                         size: 25.0,
@@ -62,7 +78,14 @@ class _SignUpState extends State<SignUp> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: TextField(
+                  child: TextFormField(
+                    validator: (String value) {
+                      return RegExp(
+                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              .hasMatch(value)
+                          ? null
+                          : "Enter correct email";
+                    },
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.emailAddress,
                     style: TextStyle(
@@ -70,6 +93,9 @@ class _SignUpState extends State<SignUp> {
                     ),
                     decoration: kTextFieldInputDecoration.copyWith(
                       hintText: 'email',
+                      errorStyle: TextStyle(
+                        fontSize: 16.0,
+                      ),
                       prefixIcon: Icon(
                         Icons.email,
                         size: 25.0,
@@ -79,7 +105,12 @@ class _SignUpState extends State<SignUp> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: TextField(
+                  child: TextFormField(
+                    validator: (String value) {
+                      return value.trim().length < 6
+                          ? 'Enter atleast 6 character'
+                          : null;
+                    },
                     obscureText: true,
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -87,6 +118,9 @@ class _SignUpState extends State<SignUp> {
                     ),
                     decoration: kTextFieldInputDecoration.copyWith(
                       hintText: 'password',
+                      errorStyle: TextStyle(
+                        fontSize: 16.0,
+                      ),
                       prefixIcon: Icon(
                         Icons.vpn_key,
                         size: 25.0,
@@ -100,7 +134,9 @@ class _SignUpState extends State<SignUp> {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15.0),
                   child: RoundedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      this.onFormSubmit();
+                    },
                     btnColor: Colors.redAccent,
                     btnText: "Signup",
                     context: context,
