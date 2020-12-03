@@ -115,7 +115,7 @@ class _SignUpState extends State<SignUp> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Dont have an account ? ",
+                      "Already have account ? ",
                       style: TextStyle(
                         fontSize: 17.0,
                       ),
@@ -125,7 +125,7 @@ class _SignUpState extends State<SignUp> {
                         print("Navigate to signup screen");
                       },
                       child: Text(
-                        "Register now",
+                        "Signin",
                         style: TextStyle(
                           decoration: TextDecoration.underline,
                           fontSize: 18.0,
