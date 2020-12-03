@@ -1,3 +1,4 @@
+import 'package:chat_app/screens/signin.dart';
 import 'package:chat_app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -122,7 +123,13 @@ class _SignUpState extends State<SignUp> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        print("Navigate to signup screen");
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SignIn(),
+                          ),
+                        );
+                        print("Navigate to signin screen");
                       },
                       child: Text(
                         "Signin",
