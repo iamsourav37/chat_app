@@ -1,6 +1,7 @@
 import 'package:chat_app/constants.dart';
+import 'package:chat_app/helper/authentication.dart';
 import 'package:chat_app/screens/signup.dart';
-import 'package:chat_app/widgets/widgets.dart';
+import 'package:chat_app/widgets/roundedButton.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -10,6 +11,14 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  Authentication authentication = Authentication();
+
+  @override
+  void initState() {
+    authentication.checkAuthentication(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +35,7 @@ class _SignInState extends State<SignIn> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height - 60,
           padding: EdgeInsets.all(15.0),
           child: Form(
             key: _formKey,
