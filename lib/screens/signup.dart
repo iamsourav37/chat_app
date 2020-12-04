@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 import '../constants.dart';
+import 'chat_home.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -21,7 +22,15 @@ class _SignUpState extends State<SignUp> {
 
   @override
   void initState() {
-    authentication.checkAuthentication(context);
+    if (authentication.checkAuthentication()) {
+      // user is already sign in
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChatHome(),
+        ),
+      );
+    }
     super.initState();
   }
 

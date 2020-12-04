@@ -14,8 +14,8 @@ class _ChatHomeState extends State<ChatHome> {
 
   @override
   void initState() {
-    user = authentication.getCurrentUser();
-    if (user == null) {
+    if (!authentication.checkAuthentication()) {
+      // user is sign out
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -23,6 +23,7 @@ class _ChatHomeState extends State<ChatHome> {
         ),
       );
     }
+    user = authentication.getCurrentUser();
     super.initState();
   }
 
@@ -41,7 +42,10 @@ class _ChatHomeState extends State<ChatHome> {
             },
           ),
         ],
-        title: Text(user.displayName),
+        title: Text("Chat Screen"),
+      ),
+      body: Container(
+        child: Text(user.email),
       ),
     );
   }

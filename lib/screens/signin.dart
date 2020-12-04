@@ -5,6 +5,8 @@ import 'package:chat_app/widgets/roundedButton.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
+import 'chat_home.dart';
+
 class SignIn extends StatefulWidget {
   @override
   _SignInState createState() => _SignInState();
@@ -19,7 +21,15 @@ class _SignInState extends State<SignIn> {
 
   @override
   void initState() {
-    authentication.checkAuthentication(context);
+    if (authentication.checkAuthentication()) {
+      // user is already sign in
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChatHome(),
+        ),
+      );
+    }
     super.initState();
   }
 
