@@ -22,15 +22,6 @@ class _SignUpState extends State<SignUp> {
 
   @override
   void initState() {
-    if (authentication.checkAuthentication()) {
-      // user is already sign in
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ChatHome(),
-        ),
-      );
-    }
     super.initState();
   }
 

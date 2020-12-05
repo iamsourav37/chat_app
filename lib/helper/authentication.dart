@@ -4,9 +4,11 @@ import 'package:chat_app/screens/signin.dart';
 import 'package:chat_app/widgets/showAlerDialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:chat_app/helper/databaseHelper.dart';
 
 class Authentication {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  DatabaseHelper databaseHelper = DatabaseHelper();
 
   User getCurrentUser() {
     User user = _auth.currentUser;
@@ -14,14 +16,6 @@ class Authentication {
       return user;
     }
     return null;
-  }
-
-  bool checkAuthentication() {
-    if (_auth.currentUser == null) {
-      return false;
-    } else {
-      return true;
-    }
   }
 
   Future<void> signUpUserWithEmailAndPassword(BuildContext context,
@@ -32,6 +26,10 @@ class Authentication {
       await _auth.currentUser
           .updateProfile(displayName: username)
           .then((value) {
+        databaseHelper.uploadUserInfo({
+          'email': email,
+          'username': username,
+        });
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
